@@ -128,3 +128,27 @@ p {
 .artist-table tbody tr:nth-child(even) {
     background-color: #f2f2f2;
 }
+
+.artist-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.artist-table th,
+.artist-table td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ccc;
+}
+
+.artist-id {
+    width: 10%;
+}
+
+.artist-name {
+    width: 30%;
+}
+
+.artist-email {
+    width: 60%;
+}

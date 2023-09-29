@@ -23,24 +23,37 @@ require_once "Includes/dbconnection.php";
                 </tr>
             </thead>
             <tbody>
-                <?php
-              
+            <?php
+            $dsn = "mysql:host=localhost;dbname=artcentre";
+            $username = "root";
+            $password = "";
 
-                
-                $query = $db->query("SELECT * FROM artists");
+            $database = new DatabaseConnection($dsn, $username, $password);
 
-                if ($query) {
-                    while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
-                        echo "<tr>";
-                        echo "<td>" . $row['ArtistID'] . "</td>";
-                        echo "<td>" . $row['Username'] . "</td>";
-                        echo "<td>" . $row['EmailAddress'] . "</td>";
-                        echo "</tr>";
+            $sql = "SELECT * FROM artists";
+
+            try {
+                $stmt = $database->query($sql); // Use the modified query method
+
+                if ($stmt->execute()) { // Execute the statement
+                    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                    foreach ($rows as $row) {
+                        echo '<tr>';
+                        echo '<td class="artist-id">' . $row['ArtistID'] . '</td>';
+                        echo '<td class="artist-name">' . $row['Username'] . '</td>';
+                        echo '<td class="artist-email">' . $row['EmailAddress'] . '</td>';
+                        echo '</tr>';
                     }
                 } else {
-                    echo "<tr><td colspan='3'>Error fetching data.</td></tr>";
+                    echo "Error executing the query.";
                 }
-                ?>
+            } catch (PDOException $e) {
+                echo "Error: " . $e->getMessage();
+            }
+
+            $database->close(); // Close the database connection when done
+            ?>
             </tbody>
         </table>
     </div>
